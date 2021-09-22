@@ -1,13 +1,6 @@
 # OS_Programs
 
-## Scheduling Algorithms
-
-<style>
-    .img{
-        width = 700;
-        height = 300;
-    }
-</style>
+## Scheduling Algorithm
 
 1: First Come First serve with 0 Arrival Time <br>
 <a id ="links" href = "SchedulingAlgo/FCFS0ArrivalTime.py">Code</a>
