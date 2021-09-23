@@ -54,7 +54,7 @@ class CustomPriorityScheduling:
 
             if len(ReadyQueue) != 0:
                 #! Sorting According to high number high Priority
-                ReadyQueue.sort(lambda x: x[3], reverse=True)
+                ReadyQueue.sort(key=lambda x: x[3], reverse=True)
 
                 StartTime.append(STime)
                 STime += 1
