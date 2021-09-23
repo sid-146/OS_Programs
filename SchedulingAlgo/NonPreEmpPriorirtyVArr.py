@@ -65,6 +65,7 @@ class PriorityScheduling:
                 if (AllProcessData[j][1] <= STime) and (AllProcessData[j][4] == False):
                     # print(STime, "STime")
 
+                    # * [ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted]
                     TempHold.extend(
                         [
                             AllProcessData[j][0],
