@@ -100,6 +100,7 @@ class CustomPriorityScheduling:
             NumProcess=NumProcess,
             AvgTurnAroundTime=AvgTurnAroundTime,
             AvgWaitingTime=AvgWaitingTime,
+            ExecutionSequence=ExecutionSequence,
         )
 
     def CalculateTurnAroundTime(self, AllProcessData, NumProcess: int):
@@ -130,7 +131,14 @@ class CustomPriorityScheduling:
 
         return AvgWaitingTime
 
-    def PrintTable(self, AllProcessData, NumProcess, AvgTurnAroundTime, AvgWaitingTime):
+    def PrintTable(
+        self,
+        AllProcessData,
+        NumProcess,
+        AvgTurnAroundTime,
+        AvgWaitingTime,
+        ExecutionSequence,
+    ):
         # * SingleProcess [ProcessID, ArrivalTime, RemBurstTime, Priority, IsExecuted, BurstTime, ETime, TAT, WaitingTime]
         (
             ProcessID,
@@ -179,6 +187,10 @@ class CustomPriorityScheduling:
                 # "\t:\t",
             )
 
+        print("\nAverage Turn Around Time: ", AvgTurnAroundTime)
+        print("\nAverage Waiting Time: ", AvgWaitingTime)
+        print("\nExecution Sequence: ", ExecutionSequence)
+
 
 class AutoPriorityScheduling(CustomPriorityScheduling):
     def TakingData(self, AutoNumProces: int):
@@ -217,7 +229,7 @@ if __name__ == "__main__":
     AutoSchedule = AutoPriorityScheduling()
 
     print("Do you want to print documentaion")
-    decision = input("Enter your decision\n[Y/N] (Default decision is 'NO')")
+    decision = input("Enter your decision\n[Y/N] (Default decision is 'NO')\n")
 
     if decision.lower() == "y":
         print(Schedule.__doc__)
@@ -225,11 +237,15 @@ if __name__ == "__main__":
         pass
 
     print("Do you want to test with custom inputs? ")
-    Custom = input("Enter your decision\n[Y/N] (Default decision is 'NO')")
+    Custom = input("Enter your decision\n[Y/N] (Default decision is 'NO')\n")
 
     if Custom.lower() == "y":
-        NumProcess = int(input("Enter Number of process: "))
+        NumProcess = int(input("Enter Number of process: \n"))
+        print("Number of Processes are: ", NumProcess, "\n")
+
         Schedule.TakingData(NumProcess=NumProcess)
     else:
         AutoNumProcess = random.randint(1, 31)
+        print("Number of Processes are: ", AutoNumProcess, "\n")
+
         AutoSchedule.TakingData(AutoNumProcess)
