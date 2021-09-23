@@ -8,10 +8,7 @@ class CustomPriorityScheduling:
     ! Info here
     """
 
-    def TakeProcess():
-        NumProcess = int(input("Enter number of process: "))
-
-    def TakingData(self, NumProcess: int):
+    def TakingData(self, NumProcess):
         AllProcessData = []
 
         for i in range(NumProcess):
@@ -19,8 +16,8 @@ class CustomPriorityScheduling:
 
             ProcessID = int(input("Enter Process ID: "))
             ArrivalTime = 0
-            BurstTime = int(input(f"Enter BurstTime of {ProcessID}"))
-            Priority = int(input(f"Enter Priorirty of {ProcessID}"))
+            BurstTime = int(input(f"Enter BurstTime of {ProcessID}: "))
+            Priority = int(input(f"Enter Priorirty of {ProcessID}: "))
             IsExecuted = False
 
             # * SingleProcess [ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted, BurstTime]
@@ -30,7 +27,7 @@ class CustomPriorityScheduling:
 
         AllProcessData.append(SingleProcessData)
 
-        Schedule.SchedulingProcess(self, AllProcessData, NumProcess)
+        Schedule.SchedulingProcess(AllProcessData, NumProcess)
 
     def SchedulingProcess(self, AllProcessData, NumProcess: int):
         StartTime = []
@@ -127,8 +124,6 @@ class CustomPriorityScheduling:
 
 
 class AutoPriorityScheduling:
-    def AutoTakeProcess():
-        AutoNumProcess = random.randint(1, 31)
 
     def TakingData(self, AutoNumProces: int):
         AutoAllProcessData = []
@@ -153,6 +148,8 @@ if __name__ == "__main__":
     Custom = input("Enter your decision\n[Y/N] (Default decision is 'NO')")
 
     if Custom.lower() == 'y':
-        Schedule.TakeProcess()
+        NumProcess = int(input("Enter Number of process: "))
+        Schedule.TakingData(NumProcess=NumProcess)
     else:
-        AutoSchedule.AutoTakeProcess()
+        AutoNumProcess = random.randint(1, 31)
+        AutoSchedule.AutoTakeProcess(AutoNumProcess)
