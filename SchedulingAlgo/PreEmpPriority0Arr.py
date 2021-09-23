@@ -42,8 +42,8 @@ class CustomPriorityScheduling:
             TempData = []
 
             for i in range(NumProcess):
+                # * SingleProcess [ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted, BurstTime]
                 if AllProcessData[i][1] <= STime and AllProcessData[i][4] == False:
-                    # * SingleProcess [ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted, BurstTime]
                     TempData.extend(
                         [
                             AllProcessData[i][0],
@@ -131,7 +131,7 @@ class CustomPriorityScheduling:
         return AvgWaitingTime
 
     def PrintTable(self, AllProcessData, NumProcess, AvgTurnAroundTime, AvgWaitingTime):
-        # * SingleProcess [ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted, BurstTime, ETime, TAT, WaitingTime]
+        # * SingleProcess [ProcessID, ArrivalTime, RemBurstTime, Priority, IsExecuted, BurstTime, ETime, TAT, WaitingTime]
         (
             ProcessID,
             ArrivalTime,
@@ -142,7 +142,7 @@ class CustomPriorityScheduling:
             CompTime,
             TurnAroundTime,
             WaitingTime,
-        ) = ([], [], [], [], [], [], [], [])
+        ) = ([], [], [], [], [], [], [], [], [])
 
         for i in range(NumProcess):
             ProcessID.append(AllProcessData[i][0])
@@ -150,10 +150,34 @@ class CustomPriorityScheduling:
             RemBurstTime.append(AllProcessData[i][2])
             Priority.append(AllProcessData[i][3])
             IsExecuted.append(AllProcessData[i][4])
-            BurstTime.appned(AllProcessData[i][5])
+            BurstTime.append(AllProcessData[i][5])
             CompTime.append(AllProcessData[i][6])
             TurnAroundTime.append(AllProcessData[i][7])
             WaitingTime.append(AllProcessData[i][8])
+
+        print(
+            "ProcessID : ArrivalTime :   BurstTime   :    Priority   : CompletionTime : TurnAroundTime : WaitingTime :   IsExecuted"
+        )
+
+        for i in range(NumProcess):
+            print(
+                ProcessID[i],
+                "\t:\t",
+                ArrivalTime[i],
+                "\t:\t",
+                BurstTime[i],
+                "\t:\t",
+                Priority[i],
+                "\t:\t",
+                CompTime[i],
+                "\t:\t",
+                TurnAroundTime[i],
+                "\t:\t",
+                WaitingTime[i],
+                "\t:\t",
+                IsExecuted[i],
+                # "\t:\t",
+            )
 
 
 class AutoPriorityScheduling(CustomPriorityScheduling):
@@ -162,6 +186,30 @@ class AutoPriorityScheduling(CustomPriorityScheduling):
 
         for i in range(AutoNumProces):
             AutoSingleProcessData = []
+
+            AutoProceesID = i
+            AutoArrivalTime = 0
+            AutoBurstTime = random.randint(5, AutoNumProces + 1)
+            AutoPriority = random.randint(1, AutoNumProces + 1)
+            AutoIsExecuted = False
+
+            # ! [AutoProceesID, AutoArrivalTime, AutoBurstTime, AutoPriority, AutoIsExecuted, AutoBurstTime]
+            AutoSingleProcessData.extend(
+                [
+                    AutoProceesID,
+                    AutoArrivalTime,
+                    AutoBurstTime,
+                    AutoPriority,
+                    AutoIsExecuted,
+                    AutoBurstTime,
+                ]
+            )
+
+            AutoAllProcessData.append(AutoSingleProcessData)
+
+        CustomPriorityScheduling.SchedulingProcess(
+            self, AllProcessData=AutoAllProcessData, NumProcess=AutoNumProcess
+        )
 
 
 if __name__ == "__main__":
@@ -184,4 +232,4 @@ if __name__ == "__main__":
         Schedule.TakingData(NumProcess=NumProcess)
     else:
         AutoNumProcess = random.randint(1, 31)
-        AutoSchedule.AutoTakeProcess(AutoNumProcess)
+        AutoSchedule.TakingData(AutoNumProcess)
