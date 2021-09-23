@@ -1,9 +1,12 @@
+from typing import Sequence
 from SchedulingAlgo.FCFSVArrivalTime import NumProcess
 import random
 
 
 class CustomPriorityScheduling:
     """
+    * This program is made by Sudhanwa Kaveeshwar
+    * Program for Preemptive Priority Scheduling with 0 Arrival Time
     ! Info here
     """
 
@@ -22,11 +25,41 @@ class CustomPriorityScheduling:
             Priority = int(input(f"Enter Priorirty of {ProcessID}"))
             IsExecuted = False
 
-            #! [ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted]
+            # * SingleProcess [ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted]
             SingleProcessData.extend(
                 [ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted])
 
         AllProcessData.append(SingleProcessData)
+
+        Schedule.SchedulingProcess(self, AllProcessData, NumProcess)
+
+    def SchedulingProcess(self, AllProcessData, NumProcess: int):
+        StartTime = []
+        ExitTime = []
+        STime = 0
+
+        ExecutionSequence = []
+
+        while True:
+            ReadyQueue = []
+            TempData = []
+
+            for i in range(NumProcess):
+                if AllProcessData[i][1] <= STime and AllProcessData[i][4] == False:
+                    # * SingleProcess [ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted]
+                    TempData.extend(
+                        [AllProcessData[i][0], AllProcessData[i][1], AllProcessData[i][2], AllProcessData[i][3]])
+
+                    ReadyQueue.append(TempData)
+                    TempData = []
+
+            if len(ReadyQueue) == 0:
+                break
+
+            if len(ReadyQueue) != 0:
+                #! Sorting According to high number high Priority
+                ReadyQueue.sort(lambda x: x[3], reverse=True)
+                StartTime.append(STime)
 
 
 class AutoPriorityScheduling:
