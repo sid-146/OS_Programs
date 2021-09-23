@@ -23,7 +23,8 @@ class CustomPriorityScheduling:
             # * SingleProcess [ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted, BurstTime]
             #! second bursttime will remain same but first will denote remaning burstTime
             SingleProcessData.extend(
-                [ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted, BurstTime])
+                [ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted, BurstTime]
+            )
 
         AllProcessData.append(SingleProcessData)
 
@@ -44,7 +45,14 @@ class CustomPriorityScheduling:
                 if AllProcessData[i][1] <= STime and AllProcessData[i][4] == False:
                     # * SingleProcess [ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted, BurstTime]
                     TempData.extend(
-                        [AllProcessData[i][0], AllProcessData[i][1], AllProcessData[i][2], AllProcessData[i][3], AllProcessData[i][5]])
+                        [
+                            AllProcessData[i][0],
+                            AllProcessData[i][1],
+                            AllProcessData[i][2],
+                            AllProcessData[i][3],
+                            AllProcessData[i][5],
+                        ]
+                    )
 
                     ReadyQueue.append(TempData)
                     TempData = []
@@ -80,15 +88,19 @@ class CustomPriorityScheduling:
                     AllProcessData[k].append(ETime)
 
         AvgTurnAroundTime = Schedule.CalculateTurnAroundTime(
-            AllProcessData=AllProcessData, NumProcess=NumProcess)
+            AllProcessData=AllProcessData, NumProcess=NumProcess
+        )
 
         AvgWaitingTime = Schedule.CalculateWaitingTime(
-            AllProcessData=AllProcessData, NumProcess=NumProcess)
+            AllProcessData=AllProcessData, NumProcess=NumProcess
+        )
 
-        Schedule.PrintTable(AllProcessData=AllProcessData,
-                            NumProcess=NumProcess,
-                            AvgTurnAroundTime=AvgTurnAroundTime,
-                            AvgWaitingTime=AvgWaitingTime)
+        Schedule.PrintTable(
+            AllProcessData=AllProcessData,
+            NumProcess=NumProcess,
+            AvgTurnAroundTime=AvgTurnAroundTime,
+            AvgWaitingTime=AvgWaitingTime,
+        )
 
     def CalculateTurnAroundTime(self, AllProcessData, NumProcess: int):
         TotalTurnAroundTime = 0
@@ -119,12 +131,32 @@ class CustomPriorityScheduling:
         return AvgWaitingTime
 
     def PrintTable(self, AllProcessData, NumProcess, AvgTurnAroundTime, AvgWaitingTime):
+        # * SingleProcess [ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted, BurstTime, ETime, TAT, WaitingTime]
+        (
+            ProcessID,
+            ArrivalTime,
+            RemBurstTime,
+            Priority,
+            IsExecuted,
+            BurstTime,
+            CompTime,
+            TurnAroundTime,
+            WaitingTime,
+        ) = ([], [], [], [], [], [], [], [])
+
         for i in range(NumProcess):
-            print(AllProcessData[i])
+            ProcessID.append(AllProcessData[i][0])
+            ArrivalTime.append(AllProcessData[i][1])
+            RemBurstTime.append(AllProcessData[i][2])
+            Priority.append(AllProcessData[i][3])
+            IsExecuted.append(AllProcessData[i][4])
+            BurstTime.appned(AllProcessData[i][5])
+            CompTime.append(AllProcessData[i][6])
+            TurnAroundTime.append(AllProcessData[i][7])
+            WaitingTime.append(AllProcessData[i][8])
 
 
-class AutoPriorityScheduling:
-
+class AutoPriorityScheduling(CustomPriorityScheduling):
     def TakingData(self, AutoNumProces: int):
         AutoAllProcessData = []
 
@@ -147,7 +179,7 @@ if __name__ == "__main__":
     print("Do you want to test with custom inputs? ")
     Custom = input("Enter your decision\n[Y/N] (Default decision is 'NO')")
 
-    if Custom.lower() == 'y':
+    if Custom.lower() == "y":
         NumProcess = int(input("Enter Number of process: "))
         Schedule.TakingData(NumProcess=NumProcess)
     else:
