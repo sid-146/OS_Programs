@@ -1,7 +1,15 @@
+from SchedulingAlgo.FCFSVArrivalTime import NumProcess
 import random
 
 
-class PriorityScheduling:
+class CustomPriorityScheduling:
+    """
+    ! Info here
+    """
+
+    def TakeProcess():
+        NumProcess = int(input("Enter number of process: "))
+
     def TakingData(self, NumProcess: int):
         AllProcessData = []
 
@@ -21,5 +29,32 @@ class PriorityScheduling:
         AllProcessData.append(SingleProcessData)
 
 
+class AutoPriorityScheduling:
+    def TakeProcess():
+        AutoNumProcess = random.randint(1, 31)
+
+    def TakingData(self, AutoNumProces: int):
+        AutoAllProcessData = []
+
+        for i in range(AutoNumProces):
+            AutoSingleProcessData = []
+
+
 if __name__ == "__main__":
+    Schedule = CustomPriorityScheduling()
+    AutoSchedule = AutoPriorityScheduling()
+
     print("Do you want to print documentaion")
+    decision = input("Enter your decision\n[Y/N] (Default decision is 'NO')")
+
+    if decision.lower() == "y":
+        print(Schedule.__doc__)
+    else:
+        pass
+
+    print("Do you want to test with custom inputs? ")
+    Custom = input("Enter your decision\n[Y/N] (Default decision is 'NO')")
+    if Custom.lower() == 'y':
+        Schedule.TakeProcess()
+    else:
+        AutoSchedule.TakeProcess()
