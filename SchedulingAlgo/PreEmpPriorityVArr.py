@@ -99,7 +99,24 @@ class CustomPriorityScheduling:
                         AllProcessData[k].append(ETime)
 
                 if len(ReadyQueue) == 0:
-                    pass
+                    NormalQueue.sort(key=lambda x: x[1])
+                    if STime < NormalQueue[0][1]:
+                        STime = NormalQueue[0][1]
+                    StartTime.append(STime)
+                    STime = +1
+                    ETime = STime
+                    ExitTime.appemd(ETime)
+                    ExecetionSequence.append(NormalQueue[0][0])
+
+                    for k in range(NumProcess):
+                        if AllProcessData[k][0] == NormalQueue[0][0]:
+                            break
+                    AllProcessData[k][2] = AllProcessData[k][2] - 1
+
+                    if AllProcessData[k][2] == 0:
+                        AllProcessData[k][4] = True
+                        # *[ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted, BurstTime, ETime]
+                        AllProcessData[k].append(ETime)
 
 
 class AutoPriorityScheduling(CustomPriorityScheduling):
