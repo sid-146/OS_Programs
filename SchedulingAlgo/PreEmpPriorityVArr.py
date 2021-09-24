@@ -175,4 +175,3 @@ if __name__ == "__main__":
         AutoNumProcess = 5
         print("\nNumber of process are: ", AutoNumProcess)
         AutoScheduling.TakingData(NumProcess=AutoNumProcess)
-#! i added this line on 1016
