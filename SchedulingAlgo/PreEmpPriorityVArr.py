@@ -21,6 +21,7 @@ class CustomPriorityScheduling:
             IsExecuted = False
 
             SingleProcessData.extend(
+                # *[ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted, BurstTime]
                 [ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted, BurstTime]
             )
 
@@ -36,6 +37,7 @@ class CustomPriorityScheduling:
         STime = 0
         ExecetionSequence = []
 
+        # *[ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted, BurstTime]
         # * Sorting according to Arrival Time
         AllProcessData.sort(key=lambda x: x[1])
 
@@ -45,6 +47,7 @@ class CustomPriorityScheduling:
             TempData = []
 
             for i in range(NumProcess):
+                # *[ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted, BurstTime]
                 if AllProcessData[i][1] <= STime and AllProcessData[i][4] == False:
                     TempData.extend(
                         [
@@ -58,7 +61,44 @@ class CustomPriorityScheduling:
 
                     ReadyQueue.append(TempData)
                     TempData = []
+
                 elif AllProcessData[i][4] == False:
+                    TempData.extend(
+                        [
+                            AllProcessData[i][0],
+                            AllProcessData[i][1],
+                            AllProcessData[i][2],
+                            AllProcessData[i][4],
+                            AllProcessData[i][5],
+                        ]
+                    )
+
+                    NormalQueue.append(TempData)
+                    TempData = []
+
+                if len(ReadyQueue) == 0 and len(NormalQueue) == 0:
+                    break
+
+                if len(ReadyQueue) != 0:
+                    ReadyQueue.sort(key=lambda x: x[3], reverse=True)
+                    StartTime.append(STime)
+                    STime += STime
+                    ETime = STime
+                    ExitTime.append(ETime)
+                    ExecetionSequence.append(ReadyQueue[0][0])
+
+                    for k in range(NumProcess):
+                        if AllProcessData[k][0] == ReadyQueue[0][0]:
+                            break
+                    AllProcessData[k][2] = AllProcessData[k][2] - 1
+
+                    if AllProcessData[k][2] == 0:
+                        #! means process is completed
+                        AllProcessData[k][4] = True
+                        # *[ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted, BurstTime, ETime]
+                        AllProcessData[k].append(ETime)
+
+                if len(ReadyQueue) == 0:
                     pass
 
 
