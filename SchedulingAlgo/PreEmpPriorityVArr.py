@@ -31,11 +31,66 @@ class CustomPriorityScheduling:
         )
 
     def SchedulingProcess(self, AllProcessData, NumProcess):
+        StartTime = []
+        ExitTime = []
+        STime = 0
         ExecetionSequence = []
+
+        # * Sorting according to Arrival Time
+        AllProcessData.sort(key=lambda x: x[1])
+
+        while True:
+            ReadyQueue = []
+            NormalQueue = []
+            TempData = []
+
+            for i in range(NumProcess):
+                if AllProcessData[i][1] <= STime and AllProcessData[i][4] == False:
+                    TempData.extend(
+                        [
+                            AllProcessData[i][0],
+                            AllProcessData[i][1],
+                            AllProcessData[i][2],
+                            AllProcessData[i][3],
+                            AllProcessData[i][5],
+                        ]
+                    )
+
+                    ReadyQueue.append(TempData)
+                    TempData = []
+                elif AllProcessData[i][4] == False:
+                    pass
 
 
 class AutoPriorityScheduling(CustomPriorityScheduling):
-    pass
+    def TakingData(self, NumProcess: int):
+        AutoAllProcessData = []
+
+        for i in range(NumProcess):
+            AutoSingleProcessData = []
+
+            AutoProcessID = i + 1
+            AutoArrivalTime = random.randint(1, NumProcess + 1)
+            AutoBurstTime = random.randint(5, NumProcess + 1)
+            AutoPriority = random.randint(1, NumProcess + 1)
+            IsExecuted = False
+
+            AutoSingleProcessData.extend(
+                [
+                    AutoProcessID,
+                    AutoArrivalTime,
+                    AutoBurstTime,
+                    AutoPriority,
+                    IsExecuted,
+                    AutoBurstTime,
+                ]
+            )
+
+            AutoAllProcessData.append(AutoSingleProcessData)
+
+        CustomPriorityScheduling.SchedulingProcess(
+            self, AllProcessData=AutoAllProcessData, NumProcess=NumProcess
+        )
 
 
 if __name__ == "__main__":
@@ -54,3 +109,12 @@ if __name__ == "__main__":
     if CustomTest.lower() == "y":
         print("Enter Number of Process: ")
         NumProcess = int(input())
+
+        print("\nNumber of process are: ", NumProcess)
+        CustomScheduling.TakingData(NumProcess=NumProcess)
+
+    else:
+        # AutoNumProcess = random.randint(1, 31)
+        AutoNumProcess = 5
+        print("\nNumber of process are: ", AutoNumProcess)
+        AutoScheduling.TakingData(NumProcess=AutoNumProcess)
