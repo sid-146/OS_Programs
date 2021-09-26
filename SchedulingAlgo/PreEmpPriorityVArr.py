@@ -41,7 +41,7 @@ class CustomPriorityScheduling:
 
         # *[ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted, BurstTime]
         # * Sorting according to Arrival Time
-        # AllProcessData.sort(key=lambda x: x[1])
+        AllProcessData.sort(key=lambda x: x[1])
 
         while True:
             ReadyQueue = []
