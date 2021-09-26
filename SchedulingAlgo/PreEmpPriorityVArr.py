@@ -106,7 +106,7 @@ class CustomPriorityScheduling:
                     StartTime.append(STime)
                     STime = +1
                     ETime = STime
-                    ExitTime.appemd(ETime)
+                    ExitTime.append(ETime)
                     ExecetionSequence.append(NormalQueue[0][0])
 
                     for k in range(NumProcess):
