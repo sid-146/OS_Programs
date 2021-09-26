@@ -1,4 +1,5 @@
 import random
+from typing import Mapping
 
 
 class CustomPriorityScheduling:
@@ -138,10 +139,28 @@ class CustomPriorityScheduling:
 
         for i in range(NumProcess):
             TurnAroundTime = AllProcessData[6] - AllProcessData[1]
-            pass
+            TotalTurnAroundTime += TurnAroundTime
+
+            # *[ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted, BurstTime, ETime, TAT]
+            AllProcessData[i].appned(TurnAroundTime)
+
+        AvgTurnAroundTime = TotalTurnAroundTime / NumProcess
+
+        return AvgTurnAroundTime
 
     def CalculateWaitingTime(self, AllProcessData, NumProcess):
-        pass
+        TotalWaitingTime = 0
+
+        for i in range(NumProcess):
+            WaitingTime = AllProcessData[7] - AllProcessData[5]
+            TotalWaitingTime += TotalWaitingTime / NumProcess
+
+            # *[ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted, BurstTime, ETime, TAT, WaitingTime]
+            AllProcessData[i].appned(WaitingTime)
+
+        AvgWaitingTime = TotalWaitingTime / NumProcess
+
+        return AvgWaitingTime
 
     def PrintData(
         self,
@@ -151,7 +170,57 @@ class CustomPriorityScheduling:
         AvgWaitingTime,
         ExecutionSequence,
     ):
-        pass
+        # * SingleProcess [ProcessID, ArrivalTime, RemBurstTime, Priority, IsExecuted, BurstTime, ETime, TAT, WaitingTime]
+        (
+            ProcessID,
+            ArrivalTime,
+            RemBurstTime,
+            Priority,
+            IsExecuted,
+            BurstTime,
+            CompTime,
+            TurnAroundTime,
+            WaitingTime,
+        ) = ([], [], [], [], [], [], [], [], [])
+
+        for i in range(NumProcess):
+            ProcessID.append(AllProcessData[i][0])
+            ArrivalTime.append(AllProcessData[i][1])
+            RemBurstTime.append(AllProcessData[i][2])
+            Priority.append(AllProcessData[i][3])
+            IsExecuted.append(AllProcessData[i][4])
+            BurstTime.append(AllProcessData[i][5])
+            CompTime.append(AllProcessData[i][6])
+            TurnAroundTime.append(AllProcessData[i][7])
+            WaitingTime.append(AllProcessData[i][8])
+
+        print(
+            "ProcessID : ArrivalTime :   BurstTime   :    Priority   : CompletionTime : TurnAroundTime : WaitingTime :   IsExecuted"
+        )
+
+        for i in range(NumProcess):
+            print(
+                ProcessID[i],
+                "\t:\t",
+                ArrivalTime[i],
+                "\t:\t",
+                BurstTime[i],
+                "\t:\t",
+                Priority[i],
+                "\t:\t",
+                CompTime[i],
+                "\t:\t",
+                TurnAroundTime[i],
+                "\t:\t",
+                WaitingTime[i],
+                "\t:\t",
+                IsExecuted[i],
+                # "\t:\t",
+            )
+
+        print("\nAverage Turn Around Time: ", AvgTurnAroundTime)
+        print("\nAverage Waiting Time: ", AvgWaitingTime)
+        print("\nExecution Sequence: ", ExecutionSequence)
 
 
 class AutoPriorityScheduling(CustomPriorityScheduling):
@@ -166,6 +235,8 @@ class AutoPriorityScheduling(CustomPriorityScheduling):
             AutoBurstTime = random.randint(5, NumProcess + 1)
             AutoPriority = random.randint(1, NumProcess + 1)
             IsExecuted = False
+
+            # *[AutoProcessID,AutoArrivalTime,AutoBurstTime,AutoPriority,IsExecuted,AutoBurstTime]
 
             AutoSingleProcessData.extend(
                 [
