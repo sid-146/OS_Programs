@@ -118,6 +118,41 @@ class CustomPriorityScheduling:
                         # *[ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted, BurstTime, ETime]
                         AllProcessData[k].append(ETime)
 
+        AvgTurnAroundTime = CustomScheduling.CalculateTurnAroundTime(
+            AllProcessData=AllProcessData, NumProcess=NumProcess
+        )
+        AvgWaitingTime = CustomScheduling.CalculateWaitingTime(
+            AllProcessData=AllProcessData, NumProcess=NumProcess
+        )
+        CustomScheduling.PrintData(
+            AllProcessData=AllProcessData,
+            NumProcess=NumProcess,
+            AvgTurnAroundTime=AvgTurnAroundTime,
+            AvgWaitingTime=AvgWaitingTime,
+            ExecutionSequence=ExecetionSequence,
+        )
+
+    def CalculateTurnAroundTime(self, AllProcessData, NumProcess):
+        # *[ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted, BurstTime, ETime]
+        TotalTurnAroundTime = 0
+
+        for i in range(NumProcess):
+            TurnAroundTime = AllProcessData[6] - AllProcessData[1]
+            pass
+
+    def CalculateWaitingTime(self, AllProcessData, NumProcess):
+        pass
+
+    def PrintData(
+        self,
+        AllProcessData,
+        NumProcess,
+        AvgTurnAroundTime,
+        AvgWaitingTime,
+        ExecutionSequence,
+    ):
+        pass
+
 
 class AutoPriorityScheduling(CustomPriorityScheduling):
     def TakingData(self, NumProcess: int):
