@@ -36,11 +36,12 @@ class CustomPriorityScheduling:
         StartTime = []
         ExitTime = []
         STime = 0
+
         ExecetionSequence = []
 
         # *[ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted, BurstTime]
         # * Sorting according to Arrival Time
-        AllProcessData.sort(key=lambda x: x[1])
+        # AllProcessData.sort(key=lambda x: x[1])
 
         while True:
             ReadyQueue = []
@@ -49,6 +50,8 @@ class CustomPriorityScheduling:
 
             for i in range(NumProcess):
                 # *[ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted, BurstTime]
+
+                print(STime)
                 if AllProcessData[i][1] <= STime and AllProcessData[i][4] == False:
                     TempData.extend(
                         [
@@ -82,20 +85,27 @@ class CustomPriorityScheduling:
 
                 if len(ReadyQueue) != 0:
                     ReadyQueue.sort(key=lambda x: x[3], reverse=True)
+
                     StartTime.append(STime)
                     STime += STime
                     ETime = STime
+
                     ExitTime.append(ETime)
+
+                    # * Process which are alloted resource are appned in this list
                     ExecetionSequence.append(ReadyQueue[0][0])
 
                     for k in range(NumProcess):
                         if AllProcessData[k][0] == ReadyQueue[0][0]:
                             break
+
+                    # * reducing burst Time
                     AllProcessData[k][2] = AllProcessData[k][2] - 1
 
                     if AllProcessData[k][2] == 0:
                         #! means process is completed
                         AllProcessData[k][4] = True
+
                         # *[ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted, BurstTime, ETime]
                         AllProcessData[k].append(ETime)
 
@@ -122,9 +132,11 @@ class CustomPriorityScheduling:
         AvgTurnAroundTime = CustomScheduling.CalculateTurnAroundTime(
             AllProcessData=AllProcessData, NumProcess=NumProcess
         )
+
         AvgWaitingTime = CustomScheduling.CalculateWaitingTime(
             AllProcessData=AllProcessData, NumProcess=NumProcess
         )
+
         CustomScheduling.PrintData(
             AllProcessData=AllProcessData,
             NumProcess=NumProcess,
