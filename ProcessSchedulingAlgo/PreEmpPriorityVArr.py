@@ -290,7 +290,12 @@ if __name__ == "__main__":
         CustomScheduling.TakingData(NumProcess=NumProcess)
 
     else:
-        # AutoNumProcess = random.randint(1, 31)
-        AutoNumProcess = 15
+        CustomProcess = input("Custom Process Numbers: (Y/N)? [Default: 'NO']")
+        if CustomProcess.lower() == "Y":
+            AutoNumProcess = int(input("Enter Number of Process: "))
+        else:
+            AutoNumProcess = random.randint(1, 31)
+
+        # AutoNumProcess = 15
         print("\nNumber of process are: ", AutoNumProcess)
         AutoScheduling.TakingData(NumProcess=AutoNumProcess)
