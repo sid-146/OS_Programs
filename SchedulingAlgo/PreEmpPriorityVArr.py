@@ -42,15 +42,15 @@ class CustomPriorityScheduling:
         # * Sorting according to Arrival Time
         AllProcessData.sort(key=lambda x: x[1])
 
-        while True:
+        while 1:
             ReadyQueue = []
             NormalQueue = []
             TempData = []
 
-            for i in range(NumProcess):
+            for i in range(len(AllProcessData)):
                 # *[ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted, BurstTime]
 
-                print(STime)
+                # print(STime)
                 if AllProcessData[i][1] <= STime and AllProcessData[i][4] == False:
                     TempData.extend(
                         [
@@ -79,41 +79,43 @@ class CustomPriorityScheduling:
                     NormalQueue.append(TempData)
                     TempData = []
 
-                if len(ReadyQueue) == 0 and len(NormalQueue) == 0:
-                    break
+            if len(ReadyQueue) == 0 and len(NormalQueue) == 0:
+                break
 
-                if len(ReadyQueue) != 0:
-                    ReadyQueue.sort(key=lambda x: x[3], reverse=True)
+            if len(ReadyQueue) != 0:
+                # ? Sorting according to priority
+                ReadyQueue.sort(key=lambda x: x[3], reverse=True)
 
+                StartTime.append(STime)
+                STime += 1
+                ETime = STime
+
+                ExitTime.append(ETime)
+
+                # * Process which are alloted resource are appned in this list
+                ExecetionSequence.append(ReadyQueue[0][0])
+
+                for k in range(NumProcess):
+                    if AllProcessData[k][0] == ReadyQueue[0][0]:
+                        break
+
+                # * reducing burst Time
+                AllProcessData[k][2] = AllProcessData[k][2] - 1
+
+                if AllProcessData[k][2] == 0:
+                    #! means process is completed
+                    AllProcessData[k][4] = True
+
+                    # *[ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted, BurstTime, ETime]
+                    AllProcessData[k].append(ETime)
+
+            if len(ReadyQueue) == 0:
+                NormalQueue.sort(key=lambda x: x[1])
+                if STime < NormalQueue[0][1]:
+                    STime = NormalQueue[0][1]
                     StartTime.append(STime)
-                    STime += STime
-                    ETime = STime
+                    STime += 1
 
-                    ExitTime.append(ETime)
-
-                    # * Process which are alloted resource are appned in this list
-                    ExecetionSequence.append(ReadyQueue[0][0])
-
-                    for k in range(NumProcess):
-                        if AllProcessData[k][0] == ReadyQueue[0][0]:
-                            break
-
-                    # * reducing burst Time
-                    AllProcessData[k][2] = AllProcessData[k][2] - 1
-
-                    if AllProcessData[k][2] == 0:
-                        #! means process is completed
-                        AllProcessData[k][4] = True
-
-                        # *[ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted, BurstTime, ETime]
-                        AllProcessData[k].append(ETime)
-
-                if len(ReadyQueue) == 0:
-                    NormalQueue.sort(key=lambda x: x[1])
-                    if STime < NormalQueue[0][1]:
-                        STime = NormalQueue[0][1]
-                    StartTime.append(STime)
-                    STime = +1
                     ETime = STime
                     ExitTime.append(ETime)
                     ExecetionSequence.append(NormalQueue[0][0])
@@ -149,11 +151,11 @@ class CustomPriorityScheduling:
         TotalTurnAroundTime = 0
 
         for i in range(NumProcess):
-            TurnAroundTime = AllProcessData[6] - AllProcessData[1]
+            TurnAroundTime = AllProcessData[i][6] - AllProcessData[i][1]
             TotalTurnAroundTime += TurnAroundTime
 
             # *[ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted, BurstTime, ETime, TAT]
-            AllProcessData[i].appned(TurnAroundTime)
+            AllProcessData[i].append(TurnAroundTime)
 
         AvgTurnAroundTime = TotalTurnAroundTime / NumProcess
 
@@ -163,11 +165,11 @@ class CustomPriorityScheduling:
         TotalWaitingTime = 0
 
         for i in range(NumProcess):
-            WaitingTime = AllProcessData[7] - AllProcessData[5]
+            WaitingTime = AllProcessData[i][7] - AllProcessData[i][5]
             TotalWaitingTime += TotalWaitingTime / NumProcess
 
             # *[ProcessID, ArrivalTime, BurstTime, Priority, IsExecuted, BurstTime, ETime, TAT, WaitingTime]
-            AllProcessData[i].appned(WaitingTime)
+            AllProcessData[i].append(WaitingTime)
 
         AvgWaitingTime = TotalWaitingTime / NumProcess
 
@@ -289,6 +291,6 @@ if __name__ == "__main__":
 
     else:
         # AutoNumProcess = random.randint(1, 31)
-        AutoNumProcess = 5
+        AutoNumProcess = 15
         print("\nNumber of process are: ", AutoNumProcess)
         AutoScheduling.TakingData(NumProcess=AutoNumProcess)
