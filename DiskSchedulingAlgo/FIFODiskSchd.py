@@ -30,7 +30,7 @@ if __name__ == "__main__":
         Temp = random.randint(1, 151)
         Data.append(Temp)
 
-    Head = random.randint(1, 90)
+    Head = random.randint(1, 20)
 
     print("Current Position of Head: ", Head)
 
