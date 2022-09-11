@@ -1,15 +1,15 @@
+import helper
 import pandas as pd
 import random
 import sys
 import os
 
-## when you need to tell folder file where to look for the particular file
+# when you need to tell folder file where to look for the particular file
 currentPath = os.path.dirname(__file__)
 helperPath = os.path.join(currentPath, "..", "helpers")
 sys.path.append(helperPath)
 
 # from helper import
-import helper
 
 
 class FCFS:
@@ -54,9 +54,11 @@ if __name__ == "__main__":
     else:
         pass
 
-    choiceRandom = str(input(f"Use Random  Number for FCFS [y/n]:\n{default} "))
+    choiceRandom = str(
+        input(f"Use Random  Number for FCFS [y/n]:\n{default} "))
     if choiceRandom.lower() != "n":
-        choiceCustomProcess = input(f"Use random Number Process [y/n]:\n{default}")
+        choiceCustomProcess = input(
+            f"Use random Number Process [y/n]:\n{default}")
         if choiceCustomProcess.lower() != "n":
             #! to import of helper
             numberProcess = NumProcess.getRandomProcessNumber()

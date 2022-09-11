@@ -19,12 +19,3 @@ class ProcessNumber:
         end = random.randint(50, 100)
         processNumber = random.randint(start, end)
         return processNumber
-
-
-class showDataFrames:
-    """
-    Formats DataFrame and print in Table format
-    """
-
-    def printDataFrames(DataFrames):
-        pass
