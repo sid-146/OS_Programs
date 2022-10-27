@@ -245,7 +245,7 @@ class AutoPriorityScheduling(CustomPriorityScheduling):
 
             AutoProcessID = i + 1
             AutoArrivalTime = random.randint(1, NumProcess + 1)
-            AutoBurstTime = random.randint(5, NumProcess + 1)
+            Time = random.randint(5, NumProcess + 1)
             AutoPriority = random.randint(1, NumProcess + 1)
             IsExecuted = False
 
